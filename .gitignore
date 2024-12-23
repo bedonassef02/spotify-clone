@@ -3,6 +3,7 @@
 /node_modules
 /build
 /.idea
+/uploads
 
 # Logs
 logs
