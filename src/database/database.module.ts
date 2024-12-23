@@ -6,8 +6,7 @@ import databaseConfig from './config/database.config';
 @Module({
   imports: [
     ConfigModule.forFeature(databaseConfig),
-    MongooseModule.forRootAsync(databaseConfig.asProvider())
+    MongooseModule.forRootAsync(databaseConfig.asProvider()),
   ],
 })
-
 export class DatabaseModule {}

@@ -8,18 +8,14 @@ import { BcryptService } from './hashing/bcrypt.service';
 import { HashingService } from './hashing/hashing.service';
 
 @Module({
-  imports: [
-    UsersModule,
-    JwtModule.registerAsync(jwtConfig.asProvider())
-  ],
+  imports: [UsersModule, JwtModule.registerAsync(jwtConfig.asProvider())],
   controllers: [AuthenticationController],
   providers: [
     AuthenticationService,
     {
       provide: HashingService,
-      useClass: BcryptService
-    }
+      useClass: BcryptService,
+    },
   ],
 })
-export class IamModule {
-}
+export class IamModule {}
