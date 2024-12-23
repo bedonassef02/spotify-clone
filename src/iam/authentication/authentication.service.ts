@@ -23,18 +23,15 @@ export class AuthenticationService {
     const user: UserDocument | null = await this.usersService.findByEmail(
       signInDto.email,
     );
+
     if (!user) {
       throw new UnauthorizedException('email or password is incorrect');
     }
 
-    const isEqual = await this.hashingService.compare(
-      signInDto.password,
-      user.password,
-    );
-
-    if (!isEqual) {
+    if (!(await this.isSamePassword(signInDto.password, user.password))) {
       throw new UnauthorizedException('email or password is incorrect');
     }
+
     return user;
   }
 
@@ -42,10 +39,19 @@ export class AuthenticationService {
     const user: UserDocument | null = await this.usersService.findByEmail(
       signUpDto.email,
     );
+
     if (user) {
       throw new ConflictException('User already exists');
     }
     signUpDto.password = await this.hashingService.hash(signUpDto.password);
+
     return this.usersService.create(signUpDto);
+  }
+
+  private async isSamePassword(
+    password: string,
+    userPassword: string,
+  ): Promise<boolean> {
+    return this.hashingService.compare(password, userPassword);
   }
 }
