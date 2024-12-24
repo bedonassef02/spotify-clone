@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateArtistDto } from './dto/create-artist.dto';
 import { UpdateArtistDto } from './dto/update-artist.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Artist } from './entities/artist.entity';
+import { Artist, ArtistDocument } from './entities/artist.entity';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -19,8 +19,12 @@ export class ArtistsService {
     return this.artistModel.find();
   }
 
-  findOne(id: string): Promise<Artist> {
-    return this.artistModel.findById(id);
+  async findOne(id: string): Promise<ArtistDocument> {
+    const artist: ArtistDocument | null = await this.artistModel.findById(id);
+    if (artist) {
+      return artist;
+    }
+    throw new NotFoundException(`Artist with id ${id} not found`);
   }
 
   update(id: string, updateArtistDto: UpdateArtistDto): Promise<Artist> {

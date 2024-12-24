@@ -10,5 +10,6 @@ import { Song, SongSchema } from './entities/song.entity';
   ],
   controllers: [SongsController],
   providers: [SongsService],
+  exports: [SongsService],
 })
 export class SongsModule {}
