@@ -20,10 +20,10 @@ export class Artist {
   @Prop({ required: true })
   genres: [String];
 
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'User' })
-  followers: User;
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
+  followers: [User];
 
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Song' })
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Song' }])
   songs: [Song];
 }
 

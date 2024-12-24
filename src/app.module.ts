@@ -7,6 +7,13 @@ import { SongsModule } from './songs/songs.module';
 import { ArtistsModule } from './artists/artists.module';
 
 @Module({
-  imports: [UsersModule, DatabaseModule, IamModule, ArtistsModule, StreamModule, SongsModule],
+  imports: [
+    UsersModule,
+    DatabaseModule,
+    IamModule,
+    ArtistsModule,
+    StreamModule,
+    SongsModule,
+  ],
 })
 export class AppModule {}
