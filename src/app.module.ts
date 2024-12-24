@@ -5,6 +5,7 @@ import { IamModule } from './iam/iam.module';
 import { StreamModule } from './stream/stream.module';
 import { SongsModule } from './songs/songs.module';
 import { ArtistsModule } from './artists/artists.module';
+import { AlbumsModule } from './albums/albums.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ArtistsModule } from './artists/artists.module';
     ArtistsModule,
     StreamModule,
     SongsModule,
+    AlbumsModule,
   ],
 })
 export class AppModule {}

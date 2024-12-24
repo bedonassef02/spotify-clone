@@ -14,5 +14,6 @@ import { ArtistSongsService } from './songs/artist-songs.service';
   ],
   controllers: [ArtistsController, ArtistSongsController],
   providers: [ArtistsService, ArtistSongsService],
+  exports: [ArtistsService],
 })
 export class ArtistsModule {}
