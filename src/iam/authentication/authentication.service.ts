@@ -9,6 +9,8 @@ import { UsersService } from '../../users/users.service';
 import { HashingService } from '../hashing/hashing.service';
 import { SignInDto } from './dto/sign-in.dto';
 import { UserDocument } from '../../users/entities/user.entity';
+import { TokenService } from '../services/token.service';
+import { Tokens } from '../interfaces/tokens.interface';
 
 @Injectable()
 export class AuthenticationService {
@@ -17,25 +19,25 @@ export class AuthenticationService {
   constructor(
     private readonly usersService: UsersService,
     private readonly hashingService: HashingService,
+    private readonly tokenService: TokenService,
   ) {}
 
-  async signIn(signInDto: SignInDto): Promise<UserDocument> {
+  async signIn(signInDto: SignInDto): Promise<Tokens> {
     const user: UserDocument | null = await this.usersService.findByEmail(
       signInDto.email,
     );
 
-    if (!user) {
+    if (
+      !user ||
+      !(await this.isSamePassword(signInDto.password, user.password))
+    ) {
       throw new UnauthorizedException('email or password is incorrect');
     }
 
-    if (!(await this.isSamePassword(signInDto.password, user.password))) {
-      throw new UnauthorizedException('email or password is incorrect');
-    }
-
-    return user;
+    return this.tokenService.generate(user);
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<UserDocument | null> {
+  async signUp(signUpDto: SignUpDto): Promise<Tokens> {
     const user: UserDocument | null = await this.usersService.findByEmail(
       signUpDto.email,
     );
@@ -45,7 +47,9 @@ export class AuthenticationService {
     }
     signUpDto.password = await this.hashingService.hash(signUpDto.password);
 
-    return this.usersService.create(signUpDto);
+    return this.tokenService.generate(
+      await this.usersService.create(signUpDto),
+    );
   }
 
   private async isSamePassword(
