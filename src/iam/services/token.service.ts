@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserDocument } from '../../users/entities/user.entity';
 import { ConfigType } from '@nestjs/config';
@@ -45,5 +45,13 @@ export class TokenService {
         expiresIn,
       },
     );
+  }
+
+  verify(token: string): Promise<any> {
+    try {
+      return this.jwtService.verifyAsync(token);
+    }catch (e) {
+      throw new UnauthorizedException("Invalid token");
+    }
   }
 }
