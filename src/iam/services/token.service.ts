@@ -10,7 +10,8 @@ import { Tokens } from '../interfaces/tokens.interface';
 export class TokenService {
   constructor(
     private readonly jwtService: JwtService,
-    @Inject(jwtConfig.KEY) private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+    @Inject(jwtConfig.KEY)
+    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
 
   async generate(user: UserDocument): Promise<Tokens> {
@@ -50,8 +51,8 @@ export class TokenService {
   verify(token: string): Promise<any> {
     try {
       return this.jwtService.verifyAsync(token);
-    }catch (e) {
-      throw new UnauthorizedException("Invalid token");
+    } catch {
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }

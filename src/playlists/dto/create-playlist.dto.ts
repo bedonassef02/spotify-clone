@@ -25,7 +25,7 @@ export class CreatePlaylistDto {
 
   @IsOptional()
   @IsMongoId({ each: true })
-  songs: [String];
+  songs: [string];
 
   owner: User;
 }

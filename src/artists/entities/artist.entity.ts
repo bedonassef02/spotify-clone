@@ -18,7 +18,7 @@ export class Artist {
   image: string;
 
   @Prop({ required: true })
-  genres: [String];
+  genres: [string];
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }])
   followers: [User];

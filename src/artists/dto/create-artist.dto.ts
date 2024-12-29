@@ -9,5 +9,5 @@ export class CreateArtistDto {
   @IsString()
   bio: string;
   @IsString({ each: true })
-  genres: [String];
+  genres: [string];
 }
